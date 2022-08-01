@@ -66,7 +66,7 @@ class MyGame(PaiaGame):
         hits = pygame.sprite.spritecollide(self.player, self.mobs, True, pygame.sprite.collide_rect_ratio(0.8))
         if hits:
             self.player.collide_with_mobs()
-
+            
         if not self.is_running:
             return "RESET"
 
@@ -139,7 +139,7 @@ class MyGame(PaiaGame):
             game_obj_list.append(mob.get_object_data)
         game_obj_list.append(self.player.get_object_data)
         backgrounds = [create_image_view_data("background", 0, 0, WIDTH, HEIGHT)]
-        foregrounds = [create_text_view_data(f"Score: {str(self.score)}", WIDTH // 2 - 50, 5, "#FF0000", "24px Arial BOLD")]
+        foregrounds = [create_text_view_data(f"Score: {str(self.player.score)}", WIDTH // 2 - 50, 5, "#FF0000", "24px Arial BOLD")]
         toggle_objs = [create_text_view_data(f"Timer: {str(self.frame_to_end - self.used_frame)} s", WIDTH - 150, 5, "#FFAA00", "24px Arial")]
         scene_progress = create_scene_progress_data(frame=self.used_frame, background=backgrounds,
                                                     object_list=game_obj_list,

@@ -42,6 +42,7 @@ class Player(pygame.sprite.Sprite):
         pass
 
     def collide_with_mobs(self):
+        self._score+=1
         pass
 
     @property
