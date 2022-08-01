@@ -39,6 +39,7 @@ class Player(pygame.sprite.Sprite):
         self.rect.topleft = self._init_pos
 
     def collide_with_walls(self):
+        self._score+=1
         pass
 
     def collide_with_mobs(self):

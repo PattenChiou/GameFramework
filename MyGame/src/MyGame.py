@@ -56,8 +56,6 @@ class MyGame(PaiaGame):
     def update(self, commands: dict):
         # 更新已使用的frame
         self.used_frame += 1
-        # 更新遊戲的分數
-        self.score = self.player.score
         # 更新ＡＩ輸入的指令(command)動作
         ai_1p_cmd = commands[get_ai_name(0)]
         if ai_1p_cmd is not None:
@@ -75,11 +73,9 @@ class MyGame(PaiaGame):
         hits = pygame.sprite.spritecollide(self.player, self.mobs, True, pygame.sprite.collide_rect_ratio(0.8))
         if hits:
             self.player.collide_with_mobs()
-<<<<<<< HEAD
-            
-=======
+        # 更新遊戲的分數
+        self.score = self.player.score
         # 判定是否重置遊戲
->>>>>>> 89474492c30775b577a2309a58b3a393e7e7c4c8
         if not self.is_running:
             return "RESET"
 
@@ -170,29 +166,18 @@ class MyGame(PaiaGame):
             if isinstance(wall, Wall):
                game_obj_list.append(wall.game_object_data)
         for mob in self.mobs:
-<<<<<<< HEAD
-            game_obj_list.append(mob.get_object_data)
-        game_obj_list.append(self.player.get_object_data)
-        backgrounds = [create_image_view_data("background", 0, 0, WIDTH, HEIGHT)]
-        foregrounds = [create_text_view_data(f"Score: {str(self.player.score)}", WIDTH // 2 - 50, 5, "#FF0000", "24px Arial BOLD")]
-        toggle_objs = [create_text_view_data(f"Timer: {str(self.frame_to_end - self.used_frame)} s", WIDTH - 150, 5, "#FFAA00", "24px Arial")]
-        scene_progress = create_scene_progress_data(frame=self.used_frame, background=backgrounds,
-                                                    object_list=game_obj_list,
-                                                    foreground=foregrounds, toggle=toggle_objs)
-=======
             if isinstance(mob, Mob):
                 game_obj_list.append(mob.game_object_data)
-        game_obj_list.append(self.player.game_object_data)
-        backgrounds = [create_image_view_data(image_id="background", x=0, y=0, width=WIDTH, height=HEIGHT)]
-        foregrounds = [create_text_view_data(
-            content=f"Score: {str(self.score)}", x=WIDTH // 2 - 50, y=5, color="#FF0000", font_style="24px Arial BOLD")]
-        toggle_objs = [create_text_view_data(
-            f"Timer: {str(self.frame_to_end - self.used_frame)} s", WIDTH - 150, 5, "#FFAA00", "24px Arial")]
-        scene_progress = create_scene_progress_data(
-            frame=self.used_frame, background=backgrounds,
-            object_list=game_obj_list, foreground=foregrounds, toggle=toggle_objs)
->>>>>>> 89474492c30775b577a2309a58b3a393e7e7c4c8
-        return scene_progress
+                game_obj_list.append(self.player.game_object_data)
+                backgrounds = [create_image_view_data(image_id="background", x=0, y=0, width=WIDTH, height=HEIGHT)]
+                foregrounds = [create_text_view_data(
+                    content=f"Score: {str(self.score)}", x=WIDTH // 2 - 50, y=5, color="#FF0000", font_style="24px Arial BOLD")]
+                toggle_objs = [create_text_view_data(
+                    f"Timer: {str(self.frame_to_end - self.used_frame)} s", WIDTH - 150, 5, "#FFAA00", "24px Arial")]
+                scene_progress = create_scene_progress_data(
+                    frame=self.used_frame, background=backgrounds,
+                    object_list=game_obj_list, foreground=foregrounds, toggle=toggle_objs)
+                return scene_progress
 
     # 遊戲結束或重置前，讀取遊戲結果資料，在這裡定義遊戲結果的資料
     @check_game_result
