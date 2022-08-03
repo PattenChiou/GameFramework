@@ -171,18 +171,6 @@ class MyGame(PaiaGame):
         for mob in self.mobs:
             if isinstance(mob, Mob):
                 game_obj_list.append(mob.game_object_data)
-<<<<<<< HEAD
-                game_obj_list.append(self.player.game_object_data)
-                backgrounds = [create_image_view_data(image_id="background", x=0, y=0, width=WIDTH, height=HEIGHT)]
-                foregrounds = [create_text_view_data(
-                    content=f"Score: {str(self.score)}", x=WIDTH // 2 - 50, y=5, color="#FF0000", font_style="24px Arial BOLD")]
-                toggle_objs = [create_text_view_data(
-                    f"Timer: {str(self.frame_to_end - self.used_frame)} s", WIDTH - 150, 5, "#FFAA00", "24px Arial")]
-                scene_progress = create_scene_progress_data(
-                    frame=self.used_frame, background=backgrounds,
-                    object_list=game_obj_list, foreground=foregrounds, toggle=toggle_objs)
-                return scene_progress
-=======
         game_obj_list.append(self.player.game_object_data)
         backgrounds = [create_image_view_data(image_id="background", x=25, y=50, width=WIDTH-50, height=HEIGHT-50)]
         foregrounds = [create_text_view_data(
@@ -193,7 +181,6 @@ class MyGame(PaiaGame):
             frame=self.used_frame, background=backgrounds,
             object_list=game_obj_list, foreground=foregrounds, toggle=toggle_objs)
         return scene_progress
->>>>>>> 0174984a74f7f525c6f6bde82dd6736d35a9c22c
 
     # 遊戲結束或重置前，讀取遊戲結果資料，在這裡定義遊戲結果的資料
     @check_game_result
