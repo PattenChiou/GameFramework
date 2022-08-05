@@ -21,23 +21,25 @@ class Player(pygame.sprite.Sprite):
         self._score = 0
         self.bullet=[Bullet((self.rect.centerx,self.rect.centery),(5,5))]
 
-    def update(self, action: str) -> None:
-        if action == "UP" and self.rect.top > self._play_area_rect.top:
-            self.rect.centery -= self._speed
-        elif action == "DOWN" and self.rect.bottom < self._play_area_rect.bottom:
-            self.rect.centery += self._speed
-        elif action == "LEFT" and self.rect.left > self._play_area_rect.left:
-            self.rect.centerx -= self._speed
-        elif action == "RIGHT" and self.rect.right < self._play_area_rect.right:
-            self.rect.centerx += self._speed
-        elif action=="F":
-            self.bullet.append(Bullet((self.rect.centerx,self.rect.centery),(5,5)))
-        elif action=="SHOOT":
-            if(self.bullet[-1].rect.centery<0):
-                self.bullet=[(Bullet((self.rect.centerx,self.rect.centery),(5,5)))]
-            else:
-                for i in range(0,len(self.bullet)):
-                    self.bullet[i].shoot()
+    def update(self, action) -> None:
+        print(action)
+        for i in range(0,len(action)):
+            if action[i] == "UP" and self.rect.top > self._play_area_rect.top:
+                self.rect.centery -= self._speed
+            elif action[i] == "DOWN" and self.rect.bottom < self._play_area_rect.bottom:
+                self.rect.centery += self._speed
+            elif action[i] == "LEFT" and self.rect.left > self._play_area_rect.left:
+                self.rect.centerx -= self._speed
+            elif action[i] == "RIGHT" and self.rect.right < self._play_area_rect.right:
+                self.rect.centerx += self._speed
+            elif action[i]=="F":
+                self.bullet.append(Bullet((self.rect.centerx,self.rect.centery),(5,5)))
+            elif action[i]=="SHOOT":
+                if(self.bullet[-1].rect.centery<0):
+                    self.bullet=[(Bullet((self.rect.centerx,self.rect.centery),(5,5)))]
+                else:
+                    for i in range(0,len(self.bullet)):
+                        self.bullet[i].shoot()
 
     @property
     def score(self):

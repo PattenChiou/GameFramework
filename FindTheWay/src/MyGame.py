@@ -19,7 +19,7 @@ ASSET_PATH = path.join(path.dirname(__file__), "../asset")
 WIDTH = 800
 HEIGHT = 600
 
-action="NONE"
+action=[]
 # class 類別名稱(繼承的類別):
 # 這是遊戲的類別，用於建立遊戲的模板
 class MyGame(PaiaGame):
@@ -59,15 +59,19 @@ class MyGame(PaiaGame):
         self.used_frame += 1
         # 更新ＡＩ輸入的指令(command)動作
         ai_1p_cmd = commands[get_ai_name(0)]
-        if ai_1p_cmd is not None:
+        #print(ai_1p_cmd)
+        """if ai_1p_cmd is not None:
             action = ai_1p_cmd
         else:
             action = "NONE"
+        """
+        action=ai_1p_cmd
         # print(ai_1p_cmd)
         # 更新物件內部資訊
-        if(self.player.bullet[-1].rect.centery>0):
-            if action!="F":
-                action="SHOOT"
+        for i in range(0,len(action)):
+            if(self.player.bullet[-1].rect.centery>0):
+                action.append("SHOOT")
+                break
         self.player.update(action)
         self.mobs.update()
         # 處理碰撞
@@ -178,10 +182,11 @@ class MyGame(PaiaGame):
             if isinstance(mob, Mob):
                 game_obj_list.append(mob.game_object_data)
         game_obj_list.append(self.player.game_object_data)
-        if(action=="SHOOT"):
-            for i in range(0,len(self.player.bullet)):
-                game_obj_list.append(self.player.bullet[i].game_object_data)
-            #print(self.player.bullet.game_object_data)
+        for i in range(0,len(action)):
+            if(action[i]=="SHOOT"):
+                for i in range(0,len(self.player.bullet)):
+                    game_obj_list.append(self.player.bullet[i].game_object_data)
+                #print(self.player.bullet.game_object_data)
         backgrounds = [create_image_view_data(image_id="background", x=25, y=50, width=WIDTH-50, height=HEIGHT-50)]
         foregrounds = [create_text_view_data(
             content=f"Score: {str(self.score)}", x=WIDTH // 2 - 50, y=5, color="#000000", font_style="24px Arial BOLD")]

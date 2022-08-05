@@ -13,21 +13,21 @@ class MLPlay:
         """
         # print("AI received data from MyGame :", json.dumps(scene_info))
         # print(scene_info)
-        action = ""
+        action = []
 
         if pygame.K_w in keyboard or pygame.K_UP in keyboard:
-            action = "UP"
-        elif pygame.K_s in keyboard or pygame.K_DOWN in keyboard:
-            action = "DOWN"
+            action.append("UP")
+        if pygame.K_s in keyboard or pygame.K_DOWN in keyboard:
+            action.append("DOWN")
 
-        elif pygame.K_a in keyboard or pygame.K_LEFT in keyboard:
-            action = "LEFT"
-        elif pygame.K_d in keyboard or pygame.K_RIGHT in keyboard:
-            action = "RIGHT"
-        elif pygame.K_f in keyboard:
-            action="F"
+        if pygame.K_a in keyboard or pygame.K_LEFT in keyboard:
+            action.append("LEFT")
+        if pygame.K_d in keyboard or pygame.K_RIGHT in keyboard:
+            action.append("RIGHT")
+        if pygame.K_f in keyboard:
+            action.append("F")
         else:
-            action = "NONE"
+            action.append("NONE")
 
         return action
 
