@@ -16,3 +16,7 @@ FOREST = "#22390A"
 MAGENTA = "#FF00FF"
 MEDGRAY = "#4B4B4B"
 ORANGE =  "#FFA500"
+
+"""height and width"""
+HEIGHT=600
+WIDTH=800

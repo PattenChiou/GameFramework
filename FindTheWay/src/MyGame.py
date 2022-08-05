@@ -19,7 +19,7 @@ ASSET_PATH = path.join(path.dirname(__file__), "../asset")
 WIDTH = 800
 HEIGHT = 600
 
-
+action="NONE"
 # class 類別名稱(繼承的類別):
 # 這是遊戲的類別，用於建立遊戲的模板
 class MyGame(PaiaGame):
@@ -54,6 +54,7 @@ class MyGame(PaiaGame):
 
     # 在這裡將遊戲內所有的物件進行或檢查是否更新（commands={"1P": str}）或檢查程式流程的檢查
     def update(self, commands: dict):
+        global action
         # 更新已使用的frame
         self.used_frame += 1
         # 更新ＡＩ輸入的指令(command)動作
@@ -64,6 +65,9 @@ class MyGame(PaiaGame):
             action = "NONE"
         # print(ai_1p_cmd)
         # 更新物件內部資訊
+        if(self.player.bullet[-1].rect.centery>0):
+            if action!="F":
+                action="SHOOT"
         self.player.update(action)
         self.mobs.update()
         # 處理碰撞
@@ -156,6 +160,7 @@ class MyGame(PaiaGame):
             if isinstance(mob, Mob):
                 scene_init_data["assets"].append(mob.game_init_object_data)
         scene_init_data["assets"].append(self.player.game_init_object_data)
+        scene_init_data["assets"].append(self.player.bullet[0].game_init_object_data)
         return scene_init_data
 
     # 獲取所有遊戲畫面的更新資訊
@@ -164,6 +169,7 @@ class MyGame(PaiaGame):
         """
         Get the position of MyGame objects for drawing on the web
         """
+        global action
         game_obj_list = []
         for wall in self.walls:
             if isinstance(wall, Wall):
@@ -172,6 +178,10 @@ class MyGame(PaiaGame):
             if isinstance(mob, Mob):
                 game_obj_list.append(mob.game_object_data)
         game_obj_list.append(self.player.game_object_data)
+        if(action=="SHOOT"):
+            for i in range(0,len(self.player.bullet)):
+                game_obj_list.append(self.player.bullet[i].game_object_data)
+            #print(self.player.bullet.game_object_data)
         backgrounds = [create_image_view_data(image_id="background", x=25, y=50, width=WIDTH-50, height=HEIGHT-50)]
         foregrounds = [create_text_view_data(
             content=f"Score: {str(self.score)}", x=WIDTH // 2 - 50, y=5, color="#000000", font_style="24px Arial BOLD")]
