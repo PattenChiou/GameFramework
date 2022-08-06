@@ -81,6 +81,16 @@ class MyGame(PaiaGame):
         hits = pygame.sprite.spritecollide(self.player, self.mobs, True, pygame.sprite.collide_rect_ratio(0.8))
         if hits:
             self.player.collide_with_mobs()
+        l=len(self.player.bullet)
+        i=0
+        while(i<l):
+            hits=pygame.sprite.spritecollideany(self.player.bullet[i],self.mobs)
+            if hits:
+                self.player.shoot_success()
+                del self.player.bullet[i]
+                l-=1
+                i-=1
+            i+=1
         # 更新遊戲的分數
         self.score = self.player.score
         # 判定是否重置遊戲

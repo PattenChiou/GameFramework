@@ -19,7 +19,7 @@ class Player(pygame.sprite.Sprite):
         self._init_pos = pos
         self.rect = pygame.Rect(*pos, *size)
         self._score = 0
-        self.bullet=[Bullet((self.rect.centerx,self.rect.centery),(5,5))]
+        self.bullet=[Bullet((-2.5,-2.5),(5,5))]
 
     def update(self, action) -> None:
         print(action)
@@ -36,7 +36,7 @@ class Player(pygame.sprite.Sprite):
                 self.bullet.append(Bullet((self.rect.centerx,self.rect.centery),(5,5)))
             elif action[i]=="SHOOT":
                 if(self.bullet[-1].rect.centery<0):
-                    self.bullet=[(Bullet((self.rect.centerx,self.rect.centery),(5,5)))]
+                    self.bullet=[(Bullet((-2.5,-2.5),(5,5)))]
                 else:
                     for i in range(0,len(self.bullet)):
                         self.bullet[i].shoot()
@@ -59,6 +59,8 @@ class Player(pygame.sprite.Sprite):
     def collide_with_mobs(self):
         self._score+=1
         pass
+    def shoot_success(self):
+        self._score+=10
 
     @property
     def game_object_data(self):
@@ -89,3 +91,4 @@ class Bullet:
                                       width=self.rect.width, height=self.rect.height,
                                       file_path=BULLET_PATH,
                                       github_raw_url="")
+    
