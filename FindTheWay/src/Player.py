@@ -81,6 +81,8 @@ class Player(pygame.sprite.Sprite):
         pass
     def shoot_success(self):
         self._score+=10
+    def collide_with_treasures(self):
+        self._score+=100
 
     @property
     def game_object_data(self):
@@ -98,7 +100,6 @@ class Bullet:
     def __init__(self,pos,size):
         self.rect=pygame.Rect(*pos,*size)
         self._speed=5
-        pass
     def shoot(self):
         self.rect.centery-=self._speed
     @property

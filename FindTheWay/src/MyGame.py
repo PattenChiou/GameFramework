@@ -14,6 +14,7 @@ from .Prop import Prop
 from .SoundController import SoundController
 from .TiledMap import TiledMap
 from .Wall import Wall
+from .Treasure import Treasure
 
 ASSET_PATH = path.join(path.dirname(__file__), "../asset")
 WIDTH = 800
@@ -33,6 +34,7 @@ class MyGame(PaiaGame):
         # 宣告存放多個同類別物件的集合
         self.mobs = pygame.sprite.Group()
         self.walls = pygame.sprite.Group()
+        self.treasures=pygame.sprite.Group()
         # 宣告變數儲存遊戲中需紀錄的資訊
         self.used_frame = 0
         self.frame_to_end = frame_limit
@@ -51,6 +53,8 @@ class MyGame(PaiaGame):
         for i in range(random.randrange(10)):
             wall = Wall(init_pos=(random.randrange(WIDTH-50), random.randrange(HEIGHT-50)), init_size=(random.randrange(40,50), random.randrange(40,50)))
             self.walls.add(wall)
+        treasure=Treasure((100,100),(50,50))
+        self.treasures.add(treasure)
 
     # 在這裡將遊戲內所有的物件進行或檢查是否更新（commands={"1P": str}）或檢查程式流程的檢查
     def update(self, commands: dict):
@@ -91,6 +95,7 @@ class MyGame(PaiaGame):
                 l-=1
                 i-=1
             i+=1
+        hits=pygame.sprite.spritecollide(self.player,self.treasures,True,pygame.sprite.collide_rect_ratio(0.8))
         # 更新遊戲的分數
         self.score = self.player.score
         # 判定是否重置遊戲
@@ -175,6 +180,9 @@ class MyGame(PaiaGame):
                 scene_init_data["assets"].append(mob.game_init_object_data)
         scene_init_data["assets"].append(self.player.game_init_object_data)
         scene_init_data["assets"].append(self.player.bullet[0].game_init_object_data)
+        for i in self.treasures:
+            if isinstance(i,Treasure):
+                scene_init_data["assets"].append(i.game_init_object_data)
         return scene_init_data
 
     # 獲取所有遊戲畫面的更新資訊
@@ -197,6 +205,9 @@ class MyGame(PaiaGame):
                 for i in range(0,len(self.player.bullet)):
                     game_obj_list.append(self.player.bullet[i].game_object_data)
                 #print(self.player.bullet.game_object_data)
+        for i in self.treasures:
+            if isinstance(i,Treasure):
+                game_obj_list.append(i.game_object_data)
         backgrounds = [create_image_view_data(image_id="background", x=25, y=50, width=WIDTH-50, height=HEIGHT-50)]
         foregrounds = [create_text_view_data(
             content=f"Score: {str(self.score)}", x=WIDTH // 2 - 50, y=5, color="#000000", font_style="24px Arial BOLD")]
