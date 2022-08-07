@@ -15,6 +15,7 @@ from .SoundController import SoundController
 from .TiledMap import TiledMap
 from .Wall import Wall
 from .Treasure import Treasure
+from .Bomb import Bomb
 
 ASSET_PATH = path.join(path.dirname(__file__), "../asset")
 WIDTH = 800
@@ -73,7 +74,7 @@ class MyGame(PaiaGame):
         # print(ai_1p_cmd)
         # 更新物件內部資訊
         for i in range(0,len(action)):
-            if(self.player.bullet[-1].rect.centery>0):
+            if(self.player.bullets[-1].rect.centery>0):
                 action.append("SHOOT")
                 break
         self.player.update(action)
@@ -85,13 +86,13 @@ class MyGame(PaiaGame):
         hits = pygame.sprite.spritecollide(self.player, self.mobs, True, pygame.sprite.collide_rect_ratio(0.8))
         if hits:
             self.player.collide_with_mobs()
-        l=len(self.player.bullet)
+        l=len(self.player.bullets)
         i=0
         while(i<l):
-            hits=pygame.sprite.spritecollideany(self.player.bullet[i],self.mobs)
+            hits=pygame.sprite.spritecollideany(self.player.bullets[i],self.mobs)
             if hits:
                 self.player.shoot_success()
-                del self.player.bullet[i]
+                del self.player.bullets[i]
                 l-=1
                 i-=1
             i+=1
@@ -181,10 +182,14 @@ class MyGame(PaiaGame):
             if isinstance(mob, Mob):
                 scene_init_data["assets"].append(mob.game_init_object_data)
         scene_init_data["assets"].append(self.player.game_init_object_data)
-        scene_init_data["assets"].append(self.player.bullet[0].game_init_object_data)
+        scene_init_data["assets"].append(self.player.bullets[0].game_init_object_data)
         for i in self.treasures:
             if isinstance(i,Treasure):
                 scene_init_data["assets"].append(i.game_init_object_data)
+        for i in self.player.bombs:
+            if isinstance(i,Bomb):
+                scene_init_data["assets"].append(i.game_init_object_data)
+        self.player.bombs=pygame.sprite.Group()
         return scene_init_data
 
     # 獲取所有遊戲畫面的更新資訊
@@ -204,11 +209,14 @@ class MyGame(PaiaGame):
         game_obj_list.append(self.player.game_object_data)
         for i in range(0,len(action)):
             if(action[i]=="SHOOT"):
-                for i in range(0,len(self.player.bullet)):
-                    game_obj_list.append(self.player.bullet[i].game_object_data)
-                #print(self.player.bullet.game_object_data)
+                for i in range(0,len(self.player.bullets)):
+                    game_obj_list.append(self.player.bullets[i].game_object_data)
+                #print(self.player.bullets.game_object_data)
         for i in self.treasures:
             if isinstance(i,Treasure):
+                game_obj_list.append(i.game_object_data)
+        for i in self.player.bombs:
+            if isinstance(i,Bomb):
                 game_obj_list.append(i.game_object_data)
         backgrounds = [create_image_view_data(image_id="background", x=25, y=50, width=WIDTH-50, height=HEIGHT-50)]
         foregrounds = [create_text_view_data(

@@ -7,6 +7,7 @@ from mlgame.view.view_model import create_asset_init_data, create_image_view_dat
 
 import env
 import math
+from .Bomb import Bomb
 
 PLAYER_PATH = path.join(path.dirname(__file__), "..", "asset", "image", "player.png")
 BULLET_PATH=path.join(path.dirname(__file__),"..","asset","image","treasure.png")
@@ -20,7 +21,9 @@ class Player(pygame.sprite.Sprite):
         self._init_pos = pos
         self.rect = pygame.Rect(*pos, *size)
         self._score = 0
-        self.bullet=[Bullet((-2.5,-2.5),(5,5))]
+        self.bullets=[Bullet((-2.5,-2.5),(5,5))]
+        self.bombs=pygame.sprite.Group()
+        self.bombs.add(Bomb((-25,-25),(50,50)))
         self._angle=0
 
     def update(self, action) -> None:
@@ -53,13 +56,16 @@ class Player(pygame.sprite.Sprite):
                 #self.rect.centerx += self._speed
                 self._angle-=90
             elif action[i]=="F":
-                self.bullet.append(Bullet((self.rect.centerx,self.rect.centery),(5,5)))
+                self.bullets.append(Bullet((self.rect.centerx,self.rect.centery),(5,5)))
             elif action[i]=="SHOOT":
-                if(self.bullet[-1].rect.centery<0):
-                    self.bullet=[(Bullet((-2.5,-2.5),(5,5)))]
+                if(self.bullets[-1].rect.centery<0):
+                    self.bullets=[(Bullet((-2.5,-2.5),(5,5)))]
                 else:
-                    for i in range(0,len(self.bullet)):
-                        self.bullet[i].shoot()
+                    for i in range(0,len(self.bullets)):
+                        self.bullets[i].shoot()
+            elif action[i]=="LAY_BOMB":
+                self.bombs.add(Bomb((self.rect.left,self.rect.top),(50,50)))
+                
 
     @property
     def score(self):

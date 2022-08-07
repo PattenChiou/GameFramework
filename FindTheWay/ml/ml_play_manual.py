@@ -26,6 +26,8 @@ class MLPlay:
             action.append("RIGHT")
         if pygame.K_f in keyboard:
             action.append("F")
+        if pygame.K_q in keyboard:
+            action.append("LAY_BOMB")
         else:
             action.append("NONE")
 
