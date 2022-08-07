@@ -28,28 +28,28 @@ class Player(pygame.sprite.Sprite):
         while(self._angle<0):
             self._angle+=360
         for i in range(0,len(action)):
-            if action[i] == "UP" and self.rect.top > self._play_area_rect.top:
-                if(self._angle%360==0):
+            if action[i] == "UP":
+                if(self._angle%360==0 and self.rect.top > self._play_area_rect.top):
                         self.rect.centery-=self._speed
-                elif(self._angle%360==90):
+                elif(self._angle%360==90 and self.rect.left > self._play_area_rect.left):
                     self.rect.centerx -= self._speed
-                elif(self._angle%360==180):
+                elif(self._angle%360==180 and self.rect.bottom < self._play_area_rect.bottom):
                         self.rect.centery+=self._speed
-                elif (self._angle%360==270):
+                elif (self._angle%360==270 and self.rect.right < self._play_area_rect.right):
                         self.rect.centerx+=self._speed
-            elif action[i] == "DOWN" and self.rect.bottom < self._play_area_rect.bottom:
-                if(self._angle%360==0):
+            elif action[i] == "DOWN" :
+                if(self._angle%360==0 and self.rect.bottom < self._play_area_rect.bottom):
                         self.rect.centery+=self._speed
-                elif(self._angle%360==90):
+                elif(self._angle%360==90 and self.rect.right < self._play_area_rect.right):
                     self.rect.centerx += self._speed
-                elif(self._angle%360==180):
+                elif(self._angle%360==180 and self.rect.top > self._play_area_rect.top):
                         self.rect.centery-=self._speed
-                elif (self._angle%360==270):
+                elif (self._angle%360==270 and self.rect.left > self._play_area_rect.left):
                         self.rect.centerx-=self._speed
-            elif action[i] == "LEFT" and self.rect.left > self._play_area_rect.left:
+            elif action[i] == "LEFT":
                 #self.rect.centerx -= self._speed
                 self._angle+=90
-            elif action[i] == "RIGHT" and self.rect.right < self._play_area_rect.right:
+            elif action[i] == "RIGHT":
                 #self.rect.centerx += self._speed
                 self._angle-=90
             elif action[i]=="F":
