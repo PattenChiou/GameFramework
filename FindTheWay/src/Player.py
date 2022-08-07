@@ -25,8 +25,12 @@ class Player(pygame.sprite.Sprite):
         self.bombs=pygame.sprite.Group()
         self.bombs.add(Bomb((-25,-25),(50,50)))
         self._angle=0
+        self.last_x=self.rect.x
+        self.last_y=self.rect.y
 
     def update(self, action) -> None:
+        self.last_x=self.rect.x
+        self.last_y=self.rect.y  
         print(action)
         while(self._angle<0):
             self._angle+=360
@@ -64,8 +68,7 @@ class Player(pygame.sprite.Sprite):
                     for i in range(0,len(self.bullets)):
                         self.bullets[i].shoot()
             elif action[i]=="LAY_BOMB":
-                self.bombs.add(Bomb((self.rect.left,self.rect.top),(50,50)))
-                
+                self.bombs.add(Bomb((self.rect.left,self.rect.top),(50,50)))      
 
     @property
     def score(self):
@@ -79,7 +82,14 @@ class Player(pygame.sprite.Sprite):
         self.rect.topleft = self._init_pos
 
     def collide_with_walls(self):
-        self._score+=1
+        #self._score+=1
+        """delta_x=self.rect.x-self.last_x
+        delta_y=self.rect.y-self.last_y
+        self.rect.x-=delta_x
+        self.rect.y-=delta_y"""
+        self.rect.x=self.last_x
+        self.rect.y=self.last_y
+        #print("a")
         pass
 
     def collide_with_mobs(self):

@@ -54,7 +54,7 @@ class MyGame(PaiaGame):
         for i in range(random.randrange(10)):
             wall = Wall(init_pos=(random.randrange(WIDTH-50), random.randrange(HEIGHT-50)), init_size=(random.randrange(40,50), random.randrange(40,50)))
             self.walls.add(wall)
-        self.walls.add(Wall((self.player.rect.left,self.player.rect.top-50),(50,50)))
+        self.walls.add(Wall((self.player.rect.x,self.player.rect.y-50),(50,50)))
         treasure=Treasure((100,100),(50,50))
         self.treasures.add(treasure)
 
