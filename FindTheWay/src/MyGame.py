@@ -18,7 +18,7 @@ from .Treasure import Treasure
 from .Bomb import Bomb
 
 ASSET_PATH = path.join(path.dirname(__file__), "../asset")
-WIDTH = 800
+WIDTH = 1000
 HEIGHT = 600
 
 action=[]
@@ -27,7 +27,7 @@ action=[]
 class MyGame(PaiaGame):
     # def 方法名稱(參數: 型態 = 預設值):
     # 定義遊戲的初始化
-    def __init__(self, user_num=1, frame_limit: int = 300, is_sound: str = "off", map_no: int = None, *args, **kwargs):
+    def __init__(self, user_num=1, frame_limit: int = 300, is_sound: str = "off", map_no: int = 1, *args, **kwargs):
         # super().要繼承的父類別方法的名字(初始化父類別的參數)
         super().__init__(user_num=user_num, *args, **kwargs)
         # 初始化場景(寬, 高, 背景顏色, x軸起始點, y軸起始點)
@@ -51,10 +51,13 @@ class MyGame(PaiaGame):
         self.player = Player(pos=(WIDTH // 2, HEIGHT - 80), size=(50, 50), play_area_rect=pygame.Rect(0, 0, WIDTH, HEIGHT))
         for i in range(random.randrange(1, 10)):
             self._create_mobs(random.randrange(1,50))
-        for i in range(random.randrange(10)):
+        """for i in range(random.randrange(10)):
             wall = Wall(init_pos=(random.randrange(WIDTH-50), random.randrange(HEIGHT-50)), init_size=(random.randrange(40,50), random.randrange(40,50)))
-            self.walls.add(wall)
-        self.walls.add(Wall((self.player.rect.x,self.player.rect.y-50),(50,50)))
+            self.walls.add(wall)"""
+        wall=self.map.create_init_obj_list(1,Wall,color="#000000")
+        self.walls.add(wall)
+        wall=Wall({"x":self.player.rect.x,"y":self.player.rect.y-50,"width":50,"height":50},color="#FF0000")
+        self.walls.add(wall)
         treasure=Treasure((100,100),(50,50))
         self.treasures.add(treasure)
 
@@ -191,6 +194,9 @@ class MyGame(PaiaGame):
             if isinstance(i,Bomb):
                 scene_init_data["assets"].append(i.game_init_object_data)
                 self.player.bombs=pygame.sprite.Group()
+        for i in self.walls:
+            if isinstance(i,Wall):
+                scene_init_data["assets"].append(i.game_init_object_data)
         return scene_init_data
 
     # 獲取所有遊戲畫面的更新資訊
