@@ -54,6 +54,7 @@ class MyGame(PaiaGame):
         for i in range(random.randrange(10)):
             wall = Wall(init_pos=(random.randrange(WIDTH-50), random.randrange(HEIGHT-50)), init_size=(random.randrange(40,50), random.randrange(40,50)))
             self.walls.add(wall)
+        Wall((self.player.rect.left,self.player.rect.top),(50,50))
         treasure=Treasure((100,100),(50,50))
         self.treasures.add(treasure)
 
@@ -189,7 +190,7 @@ class MyGame(PaiaGame):
         for i in self.player.bombs:
             if isinstance(i,Bomb):
                 scene_init_data["assets"].append(i.game_init_object_data)
-        self.player.bombs=pygame.sprite.Group()
+                self.player.bombs=pygame.sprite.Group()
         return scene_init_data
 
     # 獲取所有遊戲畫面的更新資訊
