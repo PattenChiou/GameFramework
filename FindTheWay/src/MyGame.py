@@ -96,6 +96,8 @@ class MyGame(PaiaGame):
                 i-=1
             i+=1
         hits=pygame.sprite.spritecollide(self.player,self.treasures,True,pygame.sprite.collide_rect_ratio(0.8))
+        if hits:
+            self.player.collide_with_treasures()
         # 更新遊戲的分數
         self.score = self.player.score
         # 判定是否重置遊戲
