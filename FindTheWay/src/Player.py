@@ -8,9 +8,11 @@ from mlgame.view.view_model import create_asset_init_data, create_image_view_dat
 import env
 import math
 from .Bomb import Bomb
+from .SoundController import SoundController
 
 PLAYER_PATH = path.join(path.dirname(__file__), "..", "asset", "image", "player.png")
 BULLET_PATH=path.join(path.dirname(__file__),"..","asset","image","treasure.png")
+ASSET_PATH = path.join(path.dirname(__file__), "../asset")
 
 
 class Player(pygame.sprite.Sprite):
@@ -27,6 +29,8 @@ class Player(pygame.sprite.Sprite):
         self._angle=0
         self.last_x=self.rect.x
         self.last_y=self.rect.y
+        self.pause=0
+        self.sound_controller=SoundController()
 
     def update(self, action) -> None:
         self.last_x=self.rect.x
@@ -60,10 +64,14 @@ class Player(pygame.sprite.Sprite):
                 #self.rect.centerx += self._speed
                 self._angle-=90
             elif action[i]=="F":
-                self.bullets.append(Bullet((self.rect.centerx,self.rect.centery),(5,5)))
+                if(self.pause%5==0):
+                    self.bullets.append(Bullet((self.rect.centerx,self.rect.centery),(5,5)))
+                    self.sound_controller.play_sound(music_path=path.join(ASSET_PATH,"sound","shoot.wav"),volume=0.4,maz_time=100)
+                self.pause+=1
             elif action[i]=="SHOOT":
                 if(self.bullets[-1].rect.centery<0):
                     self.bullets=[(Bullet((-2.5,-2.5),(5,5)))]
+                    self.pause=0
                 else:
                     for i in range(0,len(self.bullets)):
                         self.bullets[i].shoot()

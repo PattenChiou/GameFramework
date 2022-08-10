@@ -45,8 +45,12 @@ class MyGame(PaiaGame):
         # 若有傳入地圖編號和開啟聲音的參數，則建立地圖和音效物件
         if self.map_no:
             self.map = TiledMap(self.map_no)
+        # 播放音樂
         if self.is_sound == "on":
+            #print(path.join(ASSET_PATH,"sound","claudiflower.wav"))
             self.sound_controller = SoundController()
+            self.sound_controller.play_music(music_path=path.join(ASSET_PATH,"sound","bgm.ogg"),volume=0.4)
+            #print(self.sound_controller)
         # 建立遊戲物件，並加入該物件的集合
         self.player = Player(pos=(WIDTH // 2, HEIGHT - 80), size=(50, 50), play_area_rect=pygame.Rect(0, 0, WIDTH, HEIGHT))
         for i in range(random.randrange(1, 10)):
@@ -99,6 +103,7 @@ class MyGame(PaiaGame):
                 del self.player.bullets[i]
                 l-=1
                 i-=1
+                hits.kill()
             i+=1
         hits=pygame.sprite.spritecollide(self.player,self.treasures,True,pygame.sprite.collide_rect_ratio(0.8))
         if hits:
