@@ -69,14 +69,13 @@ class Player(pygame.sprite.Sprite):
                     self.sound_controller.play_sound(music_path=path.join(ASSET_PATH,"sound","shoot.wav"),volume=0.4,maz_time=100)
                 self.pause+=1
             elif action[i]=="SHOOT":
-                if(self.bullets[-1].rect.centery<0):
-                    self.bullets=[(Bullet((-2.5,-2.5),(5,5)))]
-                    self.pause=0
-                else:
-                    for i in range(0,len(self.bullets)):
-                        self.bullets[i].shoot()
+                for i in range(0,len(self.bullets)):
+                    self.bullets[i].shoot()
             elif action[i]=="LAY_BOMB":
-                self.bombs.add(Bomb((self.rect.left,self.rect.top),(50,50)))      
+                self.bombs.add(Bomb((self.rect.left,self.rect.top),(50,50)))
+            if(self.bullets[-1].rect.centery<0):
+                self.bullets=[(Bullet((-2.5,-2.5),(5,5)))]
+                self.pause=0    
 
     @property
     def score(self):
