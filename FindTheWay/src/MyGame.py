@@ -97,7 +97,7 @@ class MyGame(PaiaGame):
         l=len(self.player.bullets)
         i=0
         while(i<l):
-            hits=pygame.sprite.spritecollideany(self.player.bullets[i],self.mobs)
+            hits=pygame.sprite.spritecollideany(self.player.bullets[i],self.mobs,pygame.sprite.collide_rect_ratio(0.8))
             if hits:
                 self.player.shoot_success()
                 self.player.bullets[i].kill()
