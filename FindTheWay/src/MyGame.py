@@ -79,6 +79,7 @@ class MyGame(PaiaGame):
             action = "NONE"
         """
         action=ai_1p_cmd
+        
         # print(ai_1p_cmd)
         # 更新物件內部資訊
         for i in range(0,len(action)):
