@@ -74,7 +74,7 @@ class Player(pygame.sprite.Sprite):
                     self.bullets[i].shoot()
             elif action[i]=="LAY_BOMB":
                 self.bombs.add(Bomb((self.rect.left,self.rect.top),(50,50)))
-        if(self.bullets[-1].rect.centery<0):
+        if(self.bullets[-1].rect.bottom<0):
             self.bullets=[(Bullet((-2.5,-2.5),(5,5)))]
         self.used_frame+=1
 
@@ -120,12 +120,15 @@ class Player(pygame.sprite.Sprite):
                                       file_path=PLAYER_PATH,
                                       github_raw_url="https://raw.githubusercontent.com/Jesse-Jumbo/GameFramework/main/MyGame/asset/image/player.png")
 
-class Bullet:
+class Bullet(pygame.sprite.Sprite):
     def __init__(self,pos,size):
+        super().__init__()
         self.rect=pygame.Rect(*pos,*size)
         self._speed=5
     def shoot(self):
-        self.rect.centery-=self._speed
+        self.rect.bottom-=self._speed
+        if(self.rect.bottom<0):
+            self.kill()
     @property
     def game_object_data(self):
         return create_image_view_data(image_id="bullet", x=self.rect.x, y=self.rect.y,
@@ -136,4 +139,3 @@ class Bullet:
                                       width=self.rect.width, height=self.rect.height,
                                       file_path=BULLET_PATH,
                                       github_raw_url="")
-    

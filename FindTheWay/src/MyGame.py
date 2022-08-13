@@ -82,7 +82,7 @@ class MyGame(PaiaGame):
         # print(ai_1p_cmd)
         # 更新物件內部資訊
         for i in range(0,len(action)):
-            if(self.player.bullets[-1].rect.centery>0):
+            if(self.player.bullets[-1].rect.bottom>0):
                 action.append("SHOOT")
                 break
         self.player.update(action)
@@ -100,6 +100,7 @@ class MyGame(PaiaGame):
             hits=pygame.sprite.spritecollideany(self.player.bullets[i],self.mobs)
             if hits:
                 self.player.shoot_success()
+                self.player.bullets[i].kill()
                 del self.player.bullets[i]
                 l-=1
                 i-=1
