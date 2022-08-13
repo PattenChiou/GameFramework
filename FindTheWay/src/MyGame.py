@@ -101,8 +101,6 @@ class MyGame(PaiaGame):
             if hits:
                 self.player.shoot_success()
                 del self.player.bullets[i]
-                if(len(self.player.bullets)==1):
-                    self.player.pause=0
                 l-=1
                 i-=1
                 hits.kill()
