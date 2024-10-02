@@ -235,7 +235,7 @@ class MyGame(PaiaGame):
         foregrounds = [create_text_view_data(
             content=f"Score: {str(self.score)}", x=WIDTH // 2 - 50, y=5, color="#000000", font_style="24px Arial BOLD")]
         toggle_objs = [create_text_view_data(
-            f"Timer: {str(self.frame_to_end - self.used_frame)} s", WIDTH - 150, 5, "#ff0000", "24px Arial BOLD")]
+            f"Timer: {str((self.frame_to_end - self.used_frame) // 30)} s", WIDTH - 150, 5, "#ff0000", "24px Arial BOLD")]
         scene_progress = create_scene_progress_data(
             frame=self.used_frame, background=backgrounds,
             object_list=game_obj_list, foreground=foregrounds, toggle=toggle_objs)
